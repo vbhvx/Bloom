@@ -22,3 +22,29 @@ The application is a financial planning and intelligence platform, not automatic
 
 ## 1. Scope and acceptance criteria
 
+### Required for the initial release
+
+- Responsive web application.
+- Secure user authentication and profile management.
+- Goal-based financial onboarding.
+- Financial goals with amounts, currencies, target dates, and contribution plans.
+- Deterministic financial planning and scenario calculations.
+- Beginner-friendly investment education and financial glossary.
+- Investment discovery and comparison using verified or simulated data.
+- Risk explanations and downside scenarios.
+- Conversational financial assistant grounded in approved sources.
+- Clearly labeled demo accounts, investments, prices, and portfolio values.
+- Database persistence and versioned schema migrations.
+- Automated tests for financial calculations and critical workflows.
+- Reproducible local setup, environment configuration, and deployment documentation.
+
+### Required data capabilities
+
+Support all three data modes through a provider-adapter architecture:
+
+1. **Simulated data:** deterministic demo fixtures for testing and exploration.
+2. **Verified live market data:** integration with an actual provider whose capabilities and usage permissions have been confirmed.
+3. **Authorized account connections:** user-authorized financial data from verified providers, where eligibility and integration requirements are satisfied.
+
+The application must clearly distinguish the three modes. A simulated price, balance, holding, transaction, or account must never appear to be real financial information.
+
