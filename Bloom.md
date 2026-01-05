@@ -48,3 +48,27 @@ Support all three data modes through a provider-adapter architecture:
 
 The application must clearly distinguish the three modes. A simulated price, balance, holding, transaction, or account must never appear to be real financial information.
 
+### Required analytical correctness
+
+- Use precise decimal arithmetic for financial computations.
+- Explicitly represent currencies, units, assumptions, and calculation methods.
+- Reject invalid or insufficient inputs rather than silently inventing values.
+- Distinguish actual data, user-entered data, provider-reported values, calculated results, and estimates.
+- Display data timestamps, source information, freshness, and known limitations.
+- Make projections reproducible from saved inputs and versioned formulas.
+- Test calculations against independently verified expected results.
+
+### Reviewability
+
+Provide:
+
+- Architecture and API documentation.
+- Database schema and migrations.
+- Unit, integration, and end-to-end tests.
+- Visible feature and integration statuses.
+- Documented financial assumptions and limitations.
+- Structured error handling and logging.
+- Security and privacy controls.
+- Reproducible startup and deployment instructions.
+- An implementation report identifying working, blocked, and unimplemented features.
+
