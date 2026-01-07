@@ -90,3 +90,83 @@ Personal financial planning and educational guidance should be implemented in th
 
 ## 2. Data-source specification
 
+### A. Simulated financial data
+
+Create deterministic fixtures for development, testing, and product demonstrations.
+
+Simulated data should cover:
+
+- User profiles and financial goals.
+- Income, expenses, and savings where needed for planning.
+- Investment instruments and holdings.
+- Historical and current-looking example prices.
+- Portfolio valuations and transaction histories.
+- Example scenarios and financial calculations.
+- Provider connection states.
+- Sample assistant questions and explanations.
+
+All fixtures must contain an explicit marker such as `source_type = SIMULATED`.
+
+Display an unmistakable Demo Mode indicator whenever the user is viewing simulated financial information.
+
+Rules:
+
+- Do not silently mix simulated values with real account data.
+- Do not label simulated market observations as live quotes.
+- Do not imply that an example brokerage order was sent to an actual exchange.
+- Make demo data reproducible using a fixed seed or versioned fixture files.
+- Provide a safe reset mechanism for the demo environment.
+- Ensure the reset cannot delete real user data.
+
+### B. Verified live market data
+
+Use a provider adapter to retrieve supported market information.
+
+Potential data includes instrument metadata, prices, historical observations, trading status, and other attributes needed by implemented features.
+
+Before using any provider, verify:
+
+- Official documentation and supported endpoints.
+- Availability of Indian instruments and exchanges.
+- Historical-data coverage and timestamp semantics.
+- Real-time, delayed, or end-of-day data classification.
+- Authentication and API rate limits.
+- Commercial-use and redistribution permissions.
+- Fees and applicable contractual restrictions.
+- Supported currency and instrument precision.
+- Sandbox availability and failure behavior.
+- Provider-specific terms for caching and retention.
+
+Store the following metadata wherever applicable:
+
+`provider_id`, `instrument_id`, `source_timestamp`, `ingested_at`, `currency`, `data_status`, `is_simulated`, `is_delayed`, and `validity_status`.
+
+A stale observation must not be rendered as a fresh real-time quote. If the provider is unavailable, display the last observation as stale when policy permits; otherwise, display an explicit unavailable state.
+
+Never substitute invented prices when an API request fails.
+
+### C. Authorized financial-account connections
+
+Build the architecture for authorized connections to relevant Indian financial-data providers, financial institutions, or eligible Account Aggregator ecosystem participants.
+
+For each integration, establish the actual provider and operating role before implementation. Verify the applicable eligibility, authorization, consent, security, partner, retention, and data-use requirements.
+
+The implementation must support:
+
+- Explicit user authorization.
+- Clearly explained consent.
+- Permitted data scopes.
+- Connection status.
+- Account synchronization.
+- Data-source attribution.
+- Data freshness.
+- Error recovery.
+- Consent revocation and disconnection.
+- Reconciliation of imported records.
+
+Prefer read-only financial-data access in the initial implementation.
+
+Never collect bank or broker passwords, OTPs, or TOTP secrets through a custom form as a substitute for an authorized provider flow.
+
+Do not treat a financial-data connection as permission to execute payments, investment orders, or bank transfers.
+
