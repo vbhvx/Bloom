@@ -72,3 +72,21 @@ Provide:
 - Reproducible startup and deployment instructions.
 - An implementation report identifying working, blocked, and unimplemented features.
 
+### Explicitly out of scope until separately approved
+
+- Custody or pooling of user funds.
+- Autonomous live investing or trading.
+- Order execution initiated solely by an AI conversation.
+- Unverified bank, financial-data, or broker integrations.
+- Personalized securities recommendations before the applicable regulatory requirements are satisfied.
+- Unlicensed redistribution of market data.
+- Guaranteed investment returns or predictions presented as certain.
+- Fabricated financial products, account balances, market quotes, sources, or provider capabilities.
+- International launches without jurisdiction-specific review.
+
+Personal financial planning and educational guidance should be implemented in the initial product. Any personalized securities advice or regulated activity must be separately assessed and feature-gated.
+
+---
+
+## 2. Data-source specification
+
