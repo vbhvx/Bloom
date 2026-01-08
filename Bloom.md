@@ -170,3 +170,34 @@ Never collect bank or broker passwords, OTPs, or TOTP secrets through a custom f
 
 Do not treat a financial-data connection as permission to execute payments, investment orders, or bank transfers.
 
+### D. Brokerage integration
+
+Use a separate adapter for each authorized broker.
+
+Before activating real trading, verify the official API's capabilities, the intended third-party use, provider authorization, applicable regulatory requirements, user authorization, and operational safeguards.
+
+Where permitted by the chosen provider, support order previews, explicit user confirmation, submission, status retrieval, cancellation, fills, and reconciliation.
+
+Until these requirements are met, expose a clearly labeled sandbox or a disabled state. No sandbox action may reach a real broker.
+
+### First task: verify the data providers before building integration-dependent UI
+
+Begin by investigating the selected providers and documenting:
+
+1. Official documentation and production access requirements.
+2. Actual response schemas and required fields.
+3. Authentication and authorization flows.
+4. Instrument identifiers, currencies, units, and precision.
+5. Data freshness and timestamp semantics.
+6. Pagination, rate limits, and request failures.
+7. Historical-data availability and licensing restrictions.
+8. Sandbox behavior and test credentials.
+9. Privacy, consent, retention, and disconnection requirements.
+10. Whether the intended financial product requires additional registrations, approvals, or authorized partners.
+
+**Stop condition:** Do not claim a live integration works until a representative response has been verified, the data contract is documented, the integration is authorized for the intended use, and automated tests cover its behavior.
+
+An official API that exists is not proof that the application has permission or credentials to use it.
+
+---
+
