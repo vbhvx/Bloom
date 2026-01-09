@@ -201,3 +201,49 @@ An official API that exists is not proof that the application has permission or 
 
 ---
 
+## 3. Architecture and technology choices
+
+Keep the architecture simple enough to build, test, review, and deploy reliably. Prefer a modular monolith for the initial release.
+
+| Component | Recommended technology | Reason |
+|---|---|---|
+| Frontend | Next.js, React, TypeScript | Responsive application and reusable components |
+| Styling | Tailwind CSS | Consistent design system |
+| Backend | TypeScript server-side application | Shared types and clear service boundaries |
+| API validation | Zod or equivalent | Runtime request and response validation |
+| Database | PostgreSQL | Relational financial and user data |
+| ORM | Prisma or another justified typed database layer | Schema management and migrations |
+| Financial arithmetic | `decimal.js` or equivalent | Avoid binary floating-point errors |
+| Charts | Recharts or equivalent | Scenario and portfolio visualization |
+| HTTP client | `fetch` or a maintained HTTP client | External provider access |
+| Background jobs | Queue and worker where required | Synchronization and long-running tasks |
+| AI integration | Provider abstraction with structured outputs | Replaceable model provider and controlled tools |
+| Retrieval | Approved-source search, with optional vector retrieval | Evidence-backed explanations |
+| Testing | Vitest/Jest and Playwright or equivalents | Unit and end-to-end coverage |
+| Containerization | Docker and Docker Compose | Reproducible local environment |
+| CI | Automated lint, type, test, and build checks | Repeatable verification |
+| Hosting | Selected frontend/backend hosting with managed PostgreSQL | Depends on verified deployment requirements |
+
+Use one primary backend architecture. Do not duplicate business logic across frontend components, route handlers, and separate services.
+
+For the MVP, keep financial calculations in a dedicated domain module independent of HTTP handlers and AI services.
+
+### Core modules
+
+- Identity and user profiles.
+- Financial goals and planning.
+- Financial calculation engine.
+- Investment instruments and market data.
+- Investment education and content.
+- Portfolio and holdings.
+- Financial-account connections.
+- Brokerage and order lifecycle.
+- AI assistant and source retrieval.
+- Consent, privacy, and auditing.
+- Notifications and operational health.
+- Provider administration and feature gates.
+
+Use a background worker only when integration synchronization, scheduled processing, or other asynchronous tasks justify it. Do not add infrastructure without a clear requirement.
+
+---
+
