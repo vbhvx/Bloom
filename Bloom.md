@@ -247,3 +247,26 @@ Use a background worker only when integration synchronization, scheduled process
 
 ---
 
+## 4. Core business logic
+
+This is the most important part of the application. The platform must explain financial decisions without manufacturing numerical certainty.
+
+### 4.1 Goal-based financial planning
+
+For each goal, collect or infer from explicitly supplied values:
+
+- Target amount.
+- Currency.
+- Target date and time horizon.
+- Current savings allocated to the goal.
+- Recurring contribution amount and frequency.
+- Inflation assumption, if applicable.
+- Assumed investment return, if applicable.
+- Applicable fees and tax assumptions, where supported.
+
+Implement goal creation, editing, archiving, progress tracking, and reproducible scenario generation.
+
+Clearly distinguish user-provided values from assumptions and calculated outputs.
+
+If an essential input is missing, ask the user to supply it or show a clearly labeled illustrative assumption.
+
