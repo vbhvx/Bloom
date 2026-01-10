@@ -270,3 +270,42 @@ Clearly distinguish user-provided values from assumptions and calculated outputs
 
 If an essential input is missing, ask the user to supply it or show a clearly labeled illustrative assumption.
 
+### 4.2 Financial calculation engine
+
+Implement and test the formulas required for:
+
+- Future value.
+- Present value.
+- Periodic contributions.
+- Required contributions to reach a target.
+- Inflation-adjusted targets.
+- Nominal versus real projections.
+- Scenario comparisons.
+- Currency conversion where supported.
+- Portfolio valuations and performance measures when sufficient data exists.
+
+Document the convention for contribution timing, compounding, rate conversion, date handling, precision, and rounding.
+
+Do not treat an annual effective rate as equivalent to a nominal rate without conversion.
+
+Use exact decimal arithmetic for monetary calculations, and round only at documented boundaries.
+
+Every saved scenario should retain:
+
+- Original inputs.
+- Currency.
+- Assumptions.
+- Formula or calculation version.
+- Creation timestamp.
+- Calculated outputs.
+
+### 4.3 Scenario analysis
+
+Allow users to compare a baseline, favorable, and adverse scenario by changing contribution amounts, investment assumptions, time horizons, inflation, and other supported variables.
+
+Show how much of the projected balance comes from contributions versus assumed growth.
+
+Display potential downside outcomes and uncertainty. Do not label illustrative scenarios as statistically probable outcomes unless a separately validated model supports that claim.
+
+Avoid charts that visually exaggerate small differences.
+
