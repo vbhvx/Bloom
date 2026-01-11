@@ -309,3 +309,54 @@ Display potential downside outcomes and uncertainty. Do not label illustrative s
 
 Avoid charts that visually exaggerate small differences.
 
+### 4.4 Investment discovery and comparison
+
+Organize investment exploration around financial goals, time horizon, investment characteristics, and risk education.
+
+Support relevant investment categories when verified information is available for the Indian market.
+
+Compare appropriate attributes such as:
+
+- Costs and fees.
+- Liquidity.
+- Diversification.
+- Volatility and potential losses.
+- Complexity.
+- Time horizon.
+- Currency exposure.
+- Relevant issuer or product documentation.
+
+Each financial fact must be traceable to a credible source or labeled as an assumption.
+
+Do not create a universal product ranking from an unexplained score. Personalized security-level recommendations must respect the applicable approval gates.
+
+### 4.5 Portfolio visibility
+
+Support manually entered holdings and authorized provider-reported holdings.
+
+Where implemented, calculate allocation, portfolio value, cash flows, and performance using documented methods.
+
+Differentiate:
+
+- User-entered values.
+- Provider-reported values.
+- Derived metrics.
+- Estimated values.
+- Simulated data.
+
+Record source timestamps and data quality.
+
+Do not present an estimated valuation as a withdrawable cash balance. Do not calculate exact investment returns, profits, or taxes from incomplete histories without disclosing the limitations.
+
+### 4.6 Currency and internationalization
+
+Every monetary value must have an explicit currency code.
+
+Never add balances in different currencies without an explicit conversion.
+
+When converting currencies, record the source, timestamp, quote convention, conversion direction, and applicable assumptions or charges.
+
+Keep the user's preferred currency separate from the instrument's trading currency.
+
+Support localization-ready number formatting, date conventions, languages, market calendars, and timezones. Do not assume that India-specific financial rules apply globally.
+
