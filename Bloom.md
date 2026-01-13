@@ -390,3 +390,55 @@ Protect against prompt injection, unsupported claims, cross-user data leakage, t
 
 If the assistant cannot verify a claim, it must say so.
 
+### 4.9 Regulatory feature gates
+
+Build server-side feature gates for regulated or externally dependent capabilities.
+
+Each gated feature should include its current state, reason, required approvals, provider dependencies, and audit history.
+
+Example states:
+
+`disabled`, `review_required`, `partner_required`, `approval_pending`, `approved`, `enabled`.
+
+The backend must reject prohibited actions even if a user directly invokes an endpoint.
+
+Before implementing a regulated feature, review current official requirements from the relevant authorities, including SEBI, RBI, and applicable data-protection authorities. Keep official sources, review dates, and decisions in a regulatory register.
+
+A disclaimer does not replace a required registration, authorization, agreement, or operating control.
+
+---
+
+## 5. Database schema
+
+Use PostgreSQL with versioned migrations, relational constraints, appropriate indexes, and strict user ownership checks.
+
+Implement at least the following tables.
+
+| Table | Purpose |
+|---|---|
+| `users` | Accounts, authentication references, and user status |
+| `user_profiles` | Locale, country, preferred currency, and planning preferences |
+| `financial_goals` | User goals, target values, dates, and planned contributions |
+| `planning_scenarios` | Inputs, assumptions, formula version, and outputs |
+| `risk_assessments` | User responses and versioned assessment results |
+| `providers` | External providers and supported capabilities |
+| `instruments` | Stable instrument identities and verified metadata |
+| `market_observations` | Prices or values with source and timestamp metadata |
+| `financial_accounts` | User-owned manually entered or connected accounts |
+| `account_connections` | Authorization, scopes, status, and synchronization metadata |
+| `holdings_snapshots` | Holdings reported at a particular time |
+| `investment_transactions` | Imported and provider-reported investment events |
+| `knowledge_sources` | Approved financial sources and content metadata |
+| `knowledge_chunks` | Retrievable sections of approved source material |
+| `assistant_conversations` | User conversation metadata |
+| `assistant_messages` | Assistant and user messages |
+| `assistant_citations` | Evidence supporting assistant responses |
+| `consents` | Purpose-specific user consent and revocation |
+| `audit_events` | Important security and financial actions |
+| `provider_sync_runs` | Synchronization history and failures |
+| `idempotency_records` | Prevention of duplicate state-changing operations |
+| `notifications` | User-facing alerts and status messages |
+| `regulatory_approvals` | Feature approval and review records |
+
+Add supporting tables where appropriate.
+
