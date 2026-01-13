@@ -360,3 +360,33 @@ Keep the user's preferred currency separate from the instrument's trading curren
 
 Support localization-ready number formatting, date conventions, languages, market calendars, and timezones. Do not assume that India-specific financial rules apply globally.
 
+### 4.7 Market-data freshness and provenance
+
+Maintain a reliable distinction between the original provider observation and derived values.
+
+For every important price or financial value, retain applicable provenance, including source, timestamp, currency, ingestion time, freshness state, and whether the value is actual, delayed, simulated, or estimated.
+
+If an upstream API changes its schema or omits a required value, fail validation and record the problem.
+
+Never silently convert missing data into zero.
+
+### 4.8 AI-powered financial assistant
+
+The assistant should explain relevant concepts in plain language, answer questions about goals, explain calculations, and help users understand financial trade-offs.
+
+Implement separate modes:
+
+- **Education:** general financial concepts supported by approved sources.
+- **Planning:** explanations of user goals and deterministic calculation results.
+- **Market information:** source-backed facts with timestamps and freshness labels.
+- **Personalized investment advice:** disabled until the applicable requirements have been satisfied.
+- **Transactions:** no autonomous submission of live orders or financial transactions.
+
+The model must not calculate financial results independently when a deterministic financial service can do so.
+
+Use schema-validated, permission-limited tools to retrieve authorized user information, execute planning calculations, and retrieve verified sources.
+
+Protect against prompt injection, unsupported claims, cross-user data leakage, tool misuse, and fabricated citations.
+
+If the assistant cannot verify a claim, it must say so.
+
