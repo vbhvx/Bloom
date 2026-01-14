@@ -442,3 +442,24 @@ Implement at least the following tables.
 
 Add supporting tables where appropriate.
 
+### Database rules
+
+- Every user-owned record must be associated with its owner.
+- Every private API must enforce ownership server-side.
+- Use database constraints to prevent duplicate external identifiers where applicable.
+- Use transactions for atomic multi-record operations.
+- Store time instants consistently in UTC.
+- Keep source financial events separate from derived calculations.
+- Never store provider secrets or access tokens in plaintext.
+- Do not overwrite financial history merely to simplify display.
+- Define retention, export, deletion, and backup procedures.
+- Do not use a database balance or cached quote as the sole authoritative source when the integration identifies a different source of truth.
+
+For connected accounts, preserve sufficient provenance to reproduce how a portfolio value was assembled.
+
+---
+
+## 6. Backend API contract
+
+Implement versioned, runtime-validated APIs. The frontend renders the results; it must not independently reimplement financial business rules.
+
