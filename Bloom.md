@@ -463,3 +463,52 @@ For connected accounts, preserve sufficient provenance to reproduce how a portfo
 
 Implement versioned, runtime-validated APIs. The frontend renders the results; it must not independently reimplement financial business rules.
 
+### Initial endpoints
+
+| Endpoint | Purpose |
+|---|---|
+| `GET /api/v1/health` | Service health and readiness |
+| `GET /api/v1/me` | Current user profile |
+| `PATCH /api/v1/me/profile` | Update permitted preferences |
+| `GET /api/v1/goals` | Retrieve the user's goals |
+| `POST /api/v1/goals` | Create a financial goal |
+| `GET /api/v1/goals/{goalId}` | Retrieve a goal |
+| `PATCH /api/v1/goals/{goalId}` | Update a goal |
+| `POST /api/v1/goals/{goalId}/scenarios` | Calculate and save a scenario |
+| `GET /api/v1/scenarios/{scenarioId}` | Retrieve a saved scenario |
+| `GET /api/v1/instruments` | Search available verified instruments |
+| `GET /api/v1/instruments/{instrumentId}` | Retrieve instrument information |
+| `GET /api/v1/market/quotes` | Retrieve available market observations |
+| `POST /api/v1/investments/compare` | Compare supported investment attributes |
+| `GET /api/v1/portfolio/summary` | Retrieve supported portfolio metrics |
+| `GET /api/v1/portfolio/holdings` | Retrieve holdings with source metadata |
+| `GET /api/v1/connections` | List account connections and status |
+| `POST /api/v1/connections/{providerId}/start` | Start an authorized connection flow |
+| `DELETE /api/v1/connections/{connectionId}` | Revoke or disconnect as supported |
+| `POST /api/v1/assistant/conversations` | Start an assistant conversation |
+| `POST /api/v1/assistant/conversations/{conversationId}/messages` | Submit an assistant message |
+
+### Additional integration endpoints
+
+Add provider callbacks, synchronization operations, webhook handlers, and provider health endpoints only as needed by actual integrations.
+
+Broker-specific endpoints, such as order preview, order submission, status retrieval, and cancellation, must remain disabled until all applicable gates are enabled.
+
+### API requirements
+
+- Validate query parameters, request bodies, and provider responses.
+- Use consistent HTTP status codes and structured errors.
+- Return source, timestamp, currency, and freshness metadata where relevant.
+- Reject malformed dates, amounts, currencies, and unsupported operations.
+- Enforce authentication and authorization on every private endpoint.
+- Apply rate limits and audit sensitive actions.
+- Support idempotency for operations that can duplicate external effects.
+- Use OpenAPI documentation.
+- Never return access tokens, secret configuration, or internal stack traces.
+
+Use `422` for invalid input where appropriate, `401` for missing authentication, `403` for forbidden actions, `404` for unavailable or inaccessible resources, and appropriate upstream error responses such as `502` or `503`.
+
+A provider failure must never produce fabricated financial metrics or a false success response.
+
+---
+
