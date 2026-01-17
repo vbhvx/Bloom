@@ -512,3 +512,21 @@ A provider failure must never produce fabricated financial metrics or a false su
 
 ---
 
+## 7. Frontend specification
+
+Build one responsive application with a clear user journey and progressive disclosure.
+
+### A. Financial overview
+
+Display:
+
+- Financial goals and progress.
+- Current savings values with their provenance.
+- Planned contributions.
+- Upcoming goal milestones.
+- Recent relevant financial activity.
+- Key assumptions behind projections.
+- A concise summary of planning scenarios.
+
+Avoid presenting estimated future values as guaranteed wealth.
+
