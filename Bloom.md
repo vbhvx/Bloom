@@ -530,3 +530,32 @@ Display:
 
 Avoid presenting estimated future values as guaranteed wealth.
 
+### B. Goals and planning
+
+Display:
+
+- Goal creation and editing.
+- Target amount and date.
+- Current contribution plan.
+- Projection scenarios.
+- Required contributions.
+- Inflation-adjusted outcomes where selected.
+- Baseline and adverse scenarios.
+- Calculation methodology and assumptions.
+
+Users must be able to change assumptions and understand how results change.
+
+### C. Learn and explore
+
+Display:
+
+- Beginner-friendly educational lessons.
+- A financial glossary.
+- Investment category explanations.
+- Investment comparisons.
+- Verified market facts where available.
+- Relevant risks and costs.
+- Official source links and timestamps.
+
+Do not display an unsupported instrument, product, fee, price, or performance figure as a verified fact.
+
