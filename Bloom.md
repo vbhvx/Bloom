@@ -559,3 +559,25 @@ Display:
 
 Do not display an unsupported instrument, product, fee, price, or performance figure as a verified fact.
 
+### D. Portfolio and connections
+
+Display:
+
+- User-entered and authorized holdings.
+- Portfolio summary and supported allocation metrics.
+- Latest available observation timestamps.
+- Stale or unavailable data states.
+- Active provider connections and synchronization status.
+- Source and calculation details.
+- Consent and disconnection controls.
+
+Keep actual account data and demo fixtures clearly separated.
+
+### E. Conversational assistant
+
+Support conversational explanations about financial concepts, goal planning, and calculations.
+
+Display citations and distinguish verified facts, user inputs, assumptions, and derived estimates.
+
+The assistant must not display a successful live order or financial transaction unless a verified provider has confirmed it and the application's authorized workflow has completed.
+
