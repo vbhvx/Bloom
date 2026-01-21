@@ -581,3 +581,78 @@ Display citations and distinguish verified facts, user inputs, assumptions, and 
 
 The assistant must not display a successful live order or financial transaction unless a verified provider has confirmed it and the application's authorized workflow has completed.
 
+### General interface requirements
+
+- Mobile-first responsive design.
+- Accessible controls and keyboard navigation.
+- Readable typography and clear information hierarchy.
+- Accessible chart alternatives.
+- Consistent number, currency, and date formatting.
+- Visible loading, error, empty, partial-data, stale-data, and offline states.
+- Clear notices for demo mode and unavailable integrations.
+- No fake testimonials, invented performance claims, misleading rankings, or fabricated partner logos.
+- English-first interface with localization readiness for Hindi and other languages.
+- WCAG 2.2 AA accessibility goals where applicable.
+
+Visual polish is secondary to clear financial explanations, trustworthy calculations, and honest data labeling.
+
+---
+
+## 8. Repository structure
+
+Keep the project small and easy to review.
+
+A reasonable starting structure is:
+
+```text
+goal-first-finance/
+├── src/
+│   ├── app/
+│   ├── components/
+│   ├── features/
+│   │   ├── auth/
+│   │   ├── goals/
+│   │   ├── planning/
+│   │   ├── investments/
+│   │   ├── portfolio/
+│   │   ├── connections/
+│   │   └── assistant/
+│   ├── server/
+│   │   ├── api/
+│   │   ├── services/
+│   │   ├── domain/
+│   │   ├── finance/
+│   │   ├── providers/
+│   │   ├── ai/
+│   │   └── security/
+│   └── lib/
+├── database/
+│   ├── schema/
+│   ├── migrations/
+│   └── seeds/
+├── tests/
+│   ├── unit/
+│   ├── integration/
+│   ├── e2e/
+│   └── fixtures/
+├── docs/
+│   ├── architecture.md
+│   ├── api.md
+│   ├── financial-calculations.md
+│   ├── data-sources.md
+│   ├── regulatory-register.md
+│   └── deployment.md
+├── Dockerfile
+├── docker-compose.yml
+├── .env.example
+├── .gitignore
+├── package.json
+└── README.md
+```
+
+Adapt the structure to the existing repository. Introduce a separate API, worker, or package only when it creates a meaningful boundary.
+
+Do not create empty abstraction layers, duplicate business logic, or unnecessary microservices.
+
+---
+
