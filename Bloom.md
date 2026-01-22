@@ -656,3 +656,34 @@ Do not create empty abstraction layers, duplicate business logic, or unnecessary
 
 ---
 
+## 9. Implementation checklist
+
+Use this checklist as the implementation tracker. Complete and verify each phase before depending on it in the next phase.
+
+### Phase 0 — Repository and feasibility review
+
+- Inspect the existing repository, dependencies, scripts, and deployment environment.
+- Identify existing code that should be preserved.
+- Define the initial product scope and data modes.
+- Establish the regulatory and provider dependency register.
+- Verify the selected external providers and their official documentation.
+- Define the initial domain model, API contracts, and schema.
+- Record which integrations can be implemented immediately and which remain blocked.
+
+**Gate:** No claims of real integrations until provider capabilities, access, authorization, and data contracts are verified.
+
+### Phase 1 — Core financial planning
+
+- Implement authentication and user profiles.
+- Create the database schema and migrations.
+- Implement goal creation, editing, and persistence.
+- Implement decimal-safe calculation services.
+- Implement scenario calculation and storage.
+- Build the financial overview and goals dashboard.
+- Seed deterministic simulated data.
+- Add loading, error, and empty states.
+- Write and run calculation tests.
+- Verify complete user journeys.
+
+**Gate:** A user can create a goal, calculate a scenario, save it, revisit it, and reproduce the result.
+
