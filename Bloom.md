@@ -687,3 +687,29 @@ Use this checklist as the implementation tracker. Complete and verify each phase
 
 **Gate:** A user can create a goal, calculate a scenario, save it, revisit it, and reproduce the result.
 
+### Phase 2 — Education and investment exploration
+
+- Build the glossary and educational content.
+- Add instrument and provider data models.
+- Implement the instrument discovery UI.
+- Implement comparisons supported by verified attributes.
+- Add source registry and provenance.
+- Implement the scenario simulator.
+- Build the conversational assistant using approved content.
+- Add citation, response-schema, and prompt-injection tests.
+
+**Gate:** The product explains investment choices transparently without inventing products, quotes, citations, or personalized recommendations that are not permitted.
+
+### Phase 3 — Market data
+
+- Implement market-provider interfaces.
+- Integrate deterministic demo market data.
+- Verify a real provider and obtain any required credentials or permissions.
+- Implement the approved provider adapter.
+- Validate timestamps, units, currencies, and instruments.
+- Implement quote freshness and error handling.
+- Add data-quality and provider-health indicators.
+- Test unavailable, stale, delayed, and malformed data.
+
+**Gate:** The same UI handles simulated and verified market data while clearly distinguishing their origins.
+
