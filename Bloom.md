@@ -713,3 +713,29 @@ Use this checklist as the implementation tracker. Complete and verify each phase
 
 **Gate:** The same UI handles simulated and verified market data while clearly distinguishing their origins.
 
+### Phase 4 — Portfolio and authorized connections
+
+- Implement manually entered holdings.
+- Add portfolio aggregation using supported data.
+- Implement the provider registry.
+- Implement connection and consent state.
+- Add authorized provider callbacks.
+- Add synchronization jobs and failure recovery where required.
+- Add reconciliation and duplicate-event handling.
+- Implement revocation and disconnection behavior.
+- Test user isolation and data-source attribution.
+
+**Gate:** Connected data is traceable to an actual provider authorization and is clearly distinguished from manual or simulated data.
+
+### Phase 5 — Personalized investment guidance
+
+- Review the actual service and regulatory operating model.
+- Determine whether registration, an authorized partner, or other approvals are required.
+- Define risk profiling, suitability, disclosures, conflicts, and recordkeeping controls.
+- Validate recommendation logic with qualified reviewers.
+- Add source-backed explanations and auditability.
+- Implement server-side eligibility gates.
+- Test that disabled features cannot be activated through direct API calls.
+
+**Gate:** Enable only the services whose requirements and approvals have been documented and satisfied.
+
