@@ -739,3 +739,34 @@ Use this checklist as the implementation tracker. Complete and verify each phase
 
 **Gate:** Enable only the services whose requirements and approvals have been documented and satisfied.
 
+### Phase 6 — Brokerage
+
+- Verify the chosen broker's official API and authorized capabilities.
+- Implement the broker adapter.
+- Implement account authorization.
+- Add order validation and preview.
+- Require explicit confirmation for each live order.
+- Implement idempotency and provider-event deduplication.
+- Handle timeouts, partial fills, rejection, cancellation, and reconciliation.
+- Add an operational disable mechanism.
+- Run sandbox integration and failure-recovery tests.
+- Enable real execution only after every relevant approval is complete.
+
+**Gate:** No autonomous live orders and no accidental duplicate submissions. Ambiguous order states must be reconciled before another submission.
+
+### Phase 7 — Hardening and deployment
+
+- Run linting, type checking, and all automated tests.
+- Run production builds and database migrations.
+- Review security headers, authorization, secrets, and logs.
+- Verify backups and restoration procedures.
+- Document data retention and deletion.
+- Configure deployment and environment variables.
+- Test the deployed application with real user journeys.
+- Verify that inactive integrations remain disabled.
+- Complete the README and engineering handoff.
+
+Prioritize financial correctness, integration safety, and reproducible functionality over cosmetic work.
+
+---
+
