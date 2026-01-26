@@ -770,3 +770,46 @@ Prioritize financial correctness, integration safety, and reproducible functiona
 
 ---
 
+## 10. Test plan and release gates
+
+Write the critical calculation and access-control tests before trusting the dashboard.
+
+| Test | Expected result |
+|---|---|
+| Valid financial goal | Goal is created and persisted |
+| Invalid amount or currency | Validation error; no corrupt financial record |
+| Missing required planning input | Explicit request for input or labeled assumption |
+| Zero assumed investment growth | No unexplained investment gains |
+| Inflation changes | Results change according to the documented formula |
+| Repeated calculation from the same inputs | Same output within the documented precision rules |
+| Currency mismatch | Addition rejected unless a conversion is supplied |
+| Missing market quote | Explicit missing-data state |
+| Stale provider quote | Marked stale; never shown as fresh |
+| Provider API failure | Visible failure or unavailable state |
+| Simulated quote | Always marked as simulated |
+| Unauthorized user requests another user's goal | Access denied |
+| Consent revoked | Future access is stopped as supported by the provider |
+| Duplicate provider event | No duplicate transaction or holding effect |
+| Invalid AI citation | Claim is rejected, corrected, or clearly marked unsupported |
+| Prompt-injection attempt | Model cannot override system controls or authorization |
+| Personalized-advice feature disabled | Direct API call cannot bypass the gate |
+| Brokerage feature disabled | No order can reach a live broker |
+| Ambiguous brokerage timeout | No blind resubmission; reconciliation required |
+| Database migration on a clean database | Schema is created successfully |
+| Production build | Build succeeds with no required secrets embedded in the frontend |
+
+### Financial validation
+
+Use independently checked expected values for the implemented formulas.
+
+Test:
+
+- Monetary precision and rounding.
+- Contribution timing.
+- Annual and periodic rate conventions.
+- Inflation-adjusted values.
+- Currency conversion semantics.
+- Date and timezone boundaries.
+- Missing and incomplete portfolio history.
+- Return calculations only where the necessary inputs exist.
+
