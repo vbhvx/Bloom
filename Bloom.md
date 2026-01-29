@@ -813,3 +813,45 @@ Test:
 - Missing and incomplete portfolio history.
 - Return calculations only where the necessary inputs exist.
 
+### Release gate
+
+The MVP must support a reproducible financial-planning workflow based on persisted inputs and tested calculations.
+
+All financial data must be labeled according to its actual provenance. No regulated or external operation may be enabled simply because an interface or route has been implemented.
+
+A successful test run must report the actual result. Do not claim tests, deployments, provider access, legal approvals, or integrations succeeded when they were not verified.
+
+---
+
+## 11. README and delivery checklist
+
+The README must include:
+
+- Product purpose and target users.
+- Screenshots of the working application.
+- Repository structure and important modules.
+- Technology stack and architectural decisions.
+- Local setup instructions.
+- Environment variables and configuration.
+- Database setup, migration, and seed instructions.
+- Docker startup instructions.
+- API documentation and example requests.
+- Financial calculation definitions and assumptions.
+- Data sources and their authorization status.
+- Differences between simulated, provider-reported, user-entered, and calculated data.
+- AI behavior, source retrieval, and limitations.
+- Privacy and security controls.
+- Test execution instructions.
+- Deployment and recovery procedures.
+- Implemented features and known limitations.
+- External dependencies that remain blocked.
+- Applicable regulatory questions requiring further review.
+
+Never include actual credentials, secret tokens, private account information, or real user financial data in the repository.
+
+Do not claim the product is legally approved, fully compliant, or production-ready unless the relevant evidence supports that statement.
+
+---
+
+## 12. Risks that could invalidate the result
+
