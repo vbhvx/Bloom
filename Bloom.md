@@ -855,3 +855,15 @@ Do not claim the product is legally approved, fully compliant, or production-rea
 
 ## 12. Risks that could invalidate the result
 
+### Incorrect financial calculations
+
+A polished dashboard with incorrect projection formulas, rounding, currency conversions, or return calculations is not an acceptable financial product.
+
+**Mitigation:** Use centralized deterministic calculation services, documented formulas, decimal arithmetic, independent expected-value tests, and reproducible calculation snapshots.
+
+### Misleading data provenance
+
+A simulated quote or stale account balance displayed as current real financial information undermines the product's integrity.
+
+**Mitigation:** Preserve source metadata, freshness, and mode labels throughout the full data pipeline.
+
