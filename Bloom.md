@@ -867,3 +867,15 @@ A simulated quote or stale account balance displayed as current real financial i
 
 **Mitigation:** Preserve source metadata, freshness, and mode labels throughout the full data pipeline.
 
+### Unsupported provider assumptions
+
+An accessible API endpoint does not necessarily grant access, commercial use, redistribution rights, or permission to provide an integration to retail customers.
+
+**Mitigation:** Verify provider capabilities, contracts, eligibility, and permissions before activating each integration.
+
+### Inappropriate personalized guidance
+
+Personalized security recommendations may trigger requirements beyond general education and mathematical planning.
+
+**Mitigation:** Separate educational content, goal calculations, and regulated recommendation services. Gate features based on the verified operating model.
+
