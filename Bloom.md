@@ -879,3 +879,15 @@ Personalized security recommendations may trigger requirements beyond general ed
 
 **Mitigation:** Separate educational content, goal calculations, and regulated recommendation services. Gate features based on the verified operating model.
 
+### Unsafe brokerage execution
+
+Network timeouts, duplicate requests, partial fills, and delayed provider events can cause financial harm if treated as ordinary web-request failures.
+
+**Mitigation:** Require explicit order confirmation, server-side validation, idempotency, event reconciliation, provider-specific recovery, and an operational disable mechanism.
+
+### AI-generated false confidence
+
+A conversational assistant may sound certain even when data is incomplete, a source is outdated, or a calculation is unsupported.
+
+**Mitigation:** Ground explanations in approved evidence, call deterministic calculation services, expose assumptions, validate citations, and require the assistant to acknowledge missing information.
+
