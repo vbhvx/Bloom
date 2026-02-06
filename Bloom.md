@@ -891,3 +891,37 @@ A conversational assistant may sound certain even when data is incomplete, a sou
 
 **Mitigation:** Ground explanations in approved evidence, call deterministic calculation services, expose assumptions, validate citations, and require the assistant to acknowledge missing information.
 
+### Overly broad initial scope
+
+Building planning, education, live data, account aggregation, personalized advice, and brokerage simultaneously can prevent the product from reaching a reliable first release.
+
+**Mitigation:** Complete the core goal-planning and financial-calculation workflow first, then expand through independently tested integrations and approval gates.
+
+### Privacy and security failures
+
+Financial-profile data, account references, consent records, and provider tokens require careful access and lifecycle controls.
+
+**Mitigation:** Enforce least privilege, ownership checks, secure token storage, consent tracking, data minimization, redacted logging, tested backups, and appropriate deletion procedures.
+
+---
+
+## 13. Final execution instruction
+
+Start by inspecting the existing repository and confirming what already works.
+
+Then implement the core vertical slice: user authentication, financial goal creation, deterministic planning calculations, persisted scenarios, and a responsive dashboard using clearly labeled simulated data.
+
+After that, add financial education, source-backed AI explanations, investment exploration, verified market data, portfolio visibility, authorized account connections, permitted personalized guidance, and brokerage integration in phases.
+
+Do not use mock data to conceal missing functionality. Do not invent integrations, financial figures, market conditions, regulatory approval, or successful operations. When a dependency is unavailable, implement the appropriate adapter boundary, failure state, and documentation.
+
+**The fundamental system architecture must remain:**
+
+- Financial data services establish what is known and where it came from.
+- Deterministic calculation services produce the numerical results.
+- Planning and portfolio services organize the results around user goals.
+- The AI assistant explains the evidence and helps users understand trade-offs.
+- Security and compliance controls enforce which features and actions are permitted.
+- Users retain control over consequential financial decisions.
+
+Build a trustworthy, reviewable, and extensible financial platform that helps retail investors understand their choices before acting on them.
