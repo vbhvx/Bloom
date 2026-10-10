@@ -1,0 +1,616 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum GoalCategory {
+  RETIREMENT
+  EMERGENCY_FUND
+  HOME_PURCHASE
+  EDUCATION
+  WEALTH_CREATION
+  CUSTOM
+}
+
+enum GoalPriority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum GoalStatus {
+  ACTIVE
+  ACHIEVED
+  ARCHIVED
+}
+
+enum ContributionTiming {
+  START_OF_PERIOD
+  END_OF_PERIOD
+}
+
+enum CompoundingFrequency {
+  ANNUAL
+  SEMI_ANNUAL
+  QUARTERLY
+  MONTHLY
+}
+
+enum RiskProfile {
+  CONSERVATIVE
+  MODERATE
+  AGGRESSIVE
+}
+
+enum ProviderCategory {
+  MARKET_DATA
+  ACCOUNT_AGGREGATOR
+  BROKERAGE
+  CENTRAL_BANK
+}
+
+enum ProviderStatus {
+  ACTIVE
+  DISABLED
+  SANDBOX_ONLY
+}
+
+enum AssetCategory {
+  MUTUAL_FUND
+  ETF
+  SGB
+  PPF
+  NPS
+  FD
+  EQUITY
+}
+
+enum AssetClass {
+  EQUITY
+  DEBT
+  COMMODITY
+  HYBRID
+  CASH_EQUIVALENT
+}
+
+enum RiskLevel {
+  LOW
+  MODERATE
+  HIGH
+  VERY_HIGH
+}
+
+enum MarketDataStatus {
+  REALTIME
+  DELAYED
+  END_OF_DAY
+  STALE
+  UNAVAILABLE
+}
+
+enum AccountType {
+  SAVINGS
+  DEMAT
+  MUTUAL_FUND_FOLIO
+  PPF
+  NPS
+}
+
+enum ConnectionStatus {
+  PENDING
+  ACTIVE
+  REVOKED
+  EXPIRED
+  FAILED
+}
+
+enum HoldingSourceType {
+  MANUAL
+  CONNECTED
+  SIMULATED
+}
+
+enum TransactionType {
+  BUY
+  SELL
+  SIP
+  DIVIDEND
+  INTEREST
+}
+
+enum AssistantMode {
+  EDUCATION
+  PLANNING
+  MARKET_INFO
+  REGULATED_ADVICE
+  TRANSACTIONS
+}
+
+enum ConsentStatus {
+  GRANTED
+  REVOKED
+  EXPIRED
+}
+
+enum SyncStatus {
+  IN_PROGRESS
+  SUCCESS
+  FAILED
+  PARTIAL
+}
+
+enum NotificationType {
+  INFO
+  WARNING
+  ALERT
+  SUCCESS
+}
+
+enum FeatureGateStatus {
+  DISABLED
+  REVIEW_REQUIRED
+  PARTNER_REQUIRED
+  APPROVAL_PENDING
+  APPROVED
+  ENABLED
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  passwordHash String
+  name         String
+  role         UserRole      @default(USER)
+  isDemoUser   Boolean       @default(false)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  profile               UserProfile?
+  goals                 FinancialGoal[]
+  scenarios             PlanningScenario[]
+  riskAssessments       RiskAssessment[]
+  financialAccounts     FinancialAccount[]
+  accountConnections    AccountConnection[]
+  conversations         AssistantConversation[]
+  consents              Consent[]
+  auditEvents           AuditEvent[]
+  notifications         Notification[]
+
+  @@map("users")
+}
+
+model UserProfile {
+  id                  String       @id @default(uuid())
+  userId              String       @unique
+  user                User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  locale              String       @default("en-IN")
+  country             String       @default("IND")
+  preferredCurrency   String       @default("INR")
+  monthlyIncome       Decimal?     @db.Decimal(14, 2)
+  monthlyExpenses     Decimal?     @db.Decimal(14, 2)
+  currentSavings      Decimal?     @db.Decimal(14, 2)
+  riskTolerance       RiskProfile? @default(MODERATE)
+  planningPreferences Json?
+  createdAt           DateTime     @default(now())
+  updatedAt           DateTime     @updatedAt
+
+  @@map("user_profiles")
+}
+
+model FinancialGoal {
+  id                      String       @id @default(uuid())
+  userId                  String
+  user                    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title                   String
+  description             String?
+  category                GoalCategory @default(WEALTH_CREATION)
+  targetAmount            Decimal      @db.Decimal(16, 2)
+  currency                String       @default("INR")
+  targetDate              DateTime
+  currentAllocatedSavings Decimal      @default(0) @db.Decimal(16, 2)
+  monthlyContribution     Decimal      @default(0) @db.Decimal(14, 2)
+  contributionFrequency   String       @default("MONTHLY")
+  priority                GoalPriority @default(MEDIUM)
+  status                  GoalStatus   @default(ACTIVE)
+  assumptions             Json?
+  createdAt               DateTime     @default(now())
+  updatedAt               DateTime     @updatedAt
+
+  scenarios PlanningScenario[]
+
+  @@index([userId, status])
+  @@map("financial_goals")
+}
+
+model PlanningScenario {
+  id                          String               @id @default(uuid())
+  goalId                      String?
+  goal                        FinancialGoal?       @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  userId                      String
+  user                        User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name                        String
+  formulaVersion              String               @default("v1.0.0")
+  currency                    String               @default("INR")
+  targetAmount                Decimal              @db.Decimal(16, 2)
+  timeHorizonMonths           Int
+  monthlyContribution         Decimal              @db.Decimal(14, 2)
+  currentSavings              Decimal              @db.Decimal(16, 2)
+  inflationRate               Decimal              @db.Decimal(6, 4)
+  baselineReturnRate          Decimal              @db.Decimal(6, 4)
+  favorableReturnRate         Decimal              @db.Decimal(6, 4)
+  adverseReturnRate           Decimal              @db.Decimal(6, 4)
+  contributionTiming          ContributionTiming   @default(END_OF_PERIOD)
+  compoundingFrequency        CompoundingFrequency @default(ANNUAL)
+  baselineFV                  Decimal              @db.Decimal(18, 2)
+  favorableFV                 Decimal              @db.Decimal(18, 2)
+  adverseFV                   Decimal              @db.Decimal(18, 2)
+  totalContributions          Decimal              @db.Decimal(18, 2)
+  baselineGrowth              Decimal              @db.Decimal(18, 2)
+  requiredMonthlyContribution Decimal              @db.Decimal(14, 2)
+  isReproducible              Boolean              @default(true)
+  metadata                    Json?
+  calculatedAt                DateTime             @default(now())
+
+  @@index([userId, goalId])
+  @@map("planning_scenarios")
+}
+
+model RiskAssessment {
+  id          String      @id @default(uuid())
+  userId      String
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  version     String      @default("v1.0")
+  score       Int
+  riskProfile RiskProfile
+  answers     Json
+  completedAt DateTime    @default(now())
+
+  @@index([userId])
+  @@map("risk_assessments")
+}
+
+model Provider {
+  id               String           @id @default(uuid())
+  name             String
+  code             String           @unique
+  category         ProviderCategory
+  capabilities     Json
+  status           ProviderStatus   @default(SANDBOX_ONLY)
+  documentationUrl String?
+  termsNotes       String?
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  instruments         Instrument[]
+  marketObservations  MarketObservation[]
+  accountConnections  AccountConnection[]
+  providerSyncRuns    ProviderSyncRun[]
+
+  @@map("providers")
+}
+
+model Instrument {
+  id           String        @id @default(uuid())
+  providerId   String?
+  provider     Provider?     @relation(fields: [providerId], references: [id], onDelete: SetNull)
+  symbol       String        @unique
+  isin         String?       @unique
+  name         String
+  category     AssetCategory
+  assetClass   AssetClass
+  currency     String        @default("INR")
+  riskLevel    RiskLevel     @default(MODERATE)
+  expenseRatio Decimal?      @db.Decimal(5, 4)
+  lockInDays   Int           @default(0)
+  taxNotes     String?
+  minInvestment Decimal?     @db.Decimal(12, 2)
+  isSimulated  Boolean       @default(false)
+  metadata     Json?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  observations MarketObservation[]
+  holdings     HoldingsSnapshot[]
+  transactions InvestmentTransaction[]
+
+  @@index([category, assetClass])
+  @@map("instruments")
+}
+
+model MarketObservation {
+  id              String           @id @default(uuid())
+  providerId      String
+  provider        Provider         @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  instrumentId    String
+  instrument      Instrument       @relation(fields: [instrumentId], references: [id], onDelete: Cascade)
+  price           Decimal          @db.Decimal(16, 4)
+  changeAmount    Decimal?         @db.Decimal(12, 4)
+  changePercent   Decimal?         @db.Decimal(6, 4)
+  currency        String           @default("INR")
+  sourceTimestamp DateTime
+  ingestedAt      DateTime         @default(now())
+  dataStatus      MarketDataStatus @default(REALTIME)
+  isSimulated     Boolean          @default(false)
+  isDelayed       Boolean          @default(false)
+  validityStatus  String           @default("VALID")
+  rawPayload      Json?
+
+  @@index([instrumentId, sourceTimestamp])
+  @@map("market_observations")
+}
+
+model FinancialAccount {
+  id                String      @id @default(uuid())
+  userId            String
+  user              User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  institutionName   String
+  accountType       AccountType
+  accountNumberMask String
+  currency          String      @default("INR")
+  balance           Decimal     @db.Decimal(16, 2)
+  balanceTimestamp  DateTime    @default(now())
+  isSimulated       Boolean     @default(false)
+  isConnected       Boolean     @default(false)
+  status            String      @default("ACTIVE")
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  holdings     HoldingsSnapshot[]
+  transactions InvestmentTransaction[]
+
+  @@index([userId])
+  @@map("financial_accounts")
+}
+
+model AccountConnection {
+  id                   String           @id @default(uuid())
+  userId               String
+  user                 User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  providerId           String
+  provider             Provider         @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  externalConnectionId String?
+  consentId            String?
+  status               ConnectionStatus @default(PENDING)
+  permittedScopes      Json
+  consentGrantedAt     DateTime?
+  consentExpiresAt     DateTime?
+  consentRevokedAt     DateTime?
+  lastSyncAt           DateTime?
+  syncError            String?
+  isSandbox            Boolean          @default(true)
+  createdAt            DateTime         @default(now())
+  updatedAt            DateTime         @updatedAt
+
+  syncRuns ProviderSyncRun[]
+
+  @@index([userId, providerId])
+  @@map("account_connections")
+}
+
+model HoldingsSnapshot {
+  id                String            @id @default(uuid())
+  accountId         String
+  account           FinancialAccount  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  instrumentId      String
+  instrument        Instrument        @relation(fields: [instrumentId], references: [id], onDelete: Cascade)
+  units             Decimal           @db.Decimal(16, 4)
+  averageBuyPrice   Decimal           @db.Decimal(14, 4)
+  currentPrice      Decimal           @db.Decimal(14, 4)
+  valuation         Decimal           @db.Decimal(16, 2)
+  currency          String            @default("INR")
+  sourceType        HoldingSourceType @default(MANUAL)
+  snapshotTimestamp DateTime          @default(now())
+  createdAt         DateTime          @default(now())
+
+  @@index([accountId, instrumentId])
+  @@map("holdings_snapshots")
+}
+
+model InvestmentTransaction {
+  id                  String           @id @default(uuid())
+  accountId           String
+  account             FinancialAccount @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  instrumentId        String
+  instrument          Instrument       @relation(fields: [instrumentId], references: [id], onDelete: Cascade)
+  transactionType     TransactionType
+  units               Decimal          @db.Decimal(16, 4)
+  unitPrice           Decimal          @db.Decimal(14, 4)
+  totalAmount         Decimal          @db.Decimal(16, 2)
+  feeAmount           Decimal          @default(0) @db.Decimal(10, 2)
+  currency            String           @default("INR")
+  transactionDate     DateTime
+  status              String           @default("SETTLED")
+  externalReferenceId String?
+  isSimulated         Boolean          @default(false)
+  createdAt           DateTime         @default(now())
+
+  @@index([accountId, transactionDate])
+  @@map("investment_transactions")
+}
+
+model KnowledgeSource {
+  id                 String   @id @default(uuid())
+  title              String
+  publisher          String
+  category           String
+  url                String?
+  publicationDate    DateTime?
+  isOfficial         Boolean  @default(true)
+  verificationStatus String   @default("VERIFIED")
+  summary            String?
+  createdAt          DateTime @default(now())
+
+  chunks KnowledgeChunk[]
+
+  @@map("knowledge_sources")
+}
+
+model KnowledgeChunk {
+  id        String          @id @default(uuid())
+  sourceId  String
+  source    KnowledgeSource @relation(fields: [sourceId], references: [id], onDelete: Cascade)
+  chunkIndex Int
+  title     String
+  content   String          @db.Text
+  keywords  Json?
+  tags      Json?
+  createdAt DateTime        @default(now())
+
+  citations AssistantCitation[]
+
+  @@index([sourceId])
+  @@map("knowledge_chunks")
+}
+
+model AssistantConversation {
+  id        String        @id @default(uuid())
+  userId    String
+  user      User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  mode      AssistantMode @default(EDUCATION)
+  status    String        @default("ACTIVE")
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  messages AssistantMessage[]
+
+  @@index([userId])
+  @@map("assistant_conversations")
+}
+
+model AssistantMessage {
+  id             String                @id @default(uuid())
+  conversationId String
+  conversation   AssistantConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role           String
+  content        String                @db.Text
+  reasoning      String?               @db.Text
+  modelName      String?
+  tokenCount     Int?
+  isGatedRefusal Boolean               @default(false)
+  createdAt      DateTime              @default(now())
+
+  citations AssistantCitation[]
+
+  @@index([conversationId])
+  @@map("assistant_messages")
+}
+
+model AssistantCitation {
+  id               String          @id @default(uuid())
+  messageId        String
+  message          AssistantMessage @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  chunkId          String?
+  chunk            KnowledgeChunk? @relation(fields: [chunkId], references: [id], onDelete: SetNull)
+  sourceTitle      String
+  quote            String          @db.Text
+  relevanceScore   Decimal?        @db.Decimal(5, 4)
+  verificationNote String?
+
+  @@index([messageId])
+  @@map("assistant_citations")
+}
+
+model Consent {
+  id           String        @id @default(uuid())
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  purpose      String
+  termsVersion String        @default("v1.0")
+  status       ConsentStatus @default(GRANTED)
+  grantedAt    DateTime      @default(now())
+  revokedAt    DateTime?
+  ipAddress    String?
+  userAgent    String?
+
+  @@index([userId, purpose])
+  @@map("consents")
+}
+
+model AuditEvent {
+  id           String   @id @default(uuid())
+  userId       String?
+  user         User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action       String
+  resourceType String
+  resourceId   String?
+  details      Json?
+  ipAddress    String?
+  userAgent    String?
+  createdAt    DateTime @default(now())
+
+  @@index([userId, action])
+  @@map("audit_events")
+}
+
+model ProviderSyncRun {
+  id              String            @id @default(uuid())
+  connectionId    String?
+  connection      AccountConnection? @relation(fields: [connectionId], references: [id], onDelete: Cascade)
+  providerId      String
+  provider        Provider          @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  status          SyncStatus
+  recordsFetched  Int               @default(0)
+  recordsInserted Int               @default(0)
+  errorMessage    String?
+  startedAt       DateTime          @default(now())
+  completedAt     DateTime?
+
+  @@index([providerId, connectionId])
+  @@map("provider_sync_runs")
+}
+
+model IdempotencyRecord {
+  id             String   @id @default(uuid())
+  idempotencyKey String   @unique
+  endpoint       String
+  requestHash    String
+  responseStatus Int
+  responseBody   Json
+  createdAt      DateTime @default(now())
+  expiresAt      DateTime
+
+  @@index([idempotencyKey])
+  @@map("idempotency_records")
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  type      NotificationType @default(INFO)
+  isRead    Boolean          @default(false)
+  linkUrl   String?
+  createdAt DateTime         @default(now())
+
+  @@index([userId, isRead])
+  @@map("notifications")
+}
+
+model RegulatoryApproval {
+  id                 String            @id @default(uuid())
+  featureKey         String            @unique
+  featureName        String
+  currentStatus      FeatureGateStatus @default(DISABLED)
+  legalBasis         String
+  governingAuthority String            @default("SEBI")
+  justification      String            @db.Text
+  reviewDate         DateTime          @default(now())
+  reviewedBy         String            @default("Compliance Team")
+  notes              String?           @db.Text
+  updatedAt          DateTime          @updatedAt
+
+  @@map("regulatory_approvals")
+}
+
