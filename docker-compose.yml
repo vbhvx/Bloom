@@ -1,0 +1,49 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: bloom-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: bloom_secure_password_2026
+      POSTGRES_DB: bloom_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - bloom_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d bloom_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bloom-web
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "postgresql://postgres:bloom_secure_password_2026@db:5432/bloom_db?schema=public"
+      JWT_SECRET: "bloom-docker-production-signing-key-32charsmin-2026"
+      NODE_ENV: "production"
+      PORT: "3000"
+      NEXT_PUBLIC_APP_URL: "http://localhost:3000"
+      ENABLE_SIMULATED_DATA: "true"
+      ENABLE_LIVE_MARKET_DATA: "true"
+      ENABLE_ACCOUNT_AGGREGATOR_SANDBOX: "true"
+      ENABLE_BROKERAGE_SANDBOX: "true"
+      ENABLE_PERSONALIZED_SECURITIES_ADVICE: "false"
+      ENABLE_LIVE_BROKERAGE_ORDERS: "false"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  bloom_pgdata:
+    driver: local
+
