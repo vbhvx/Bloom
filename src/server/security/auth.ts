@@ -3,7 +3,19 @@ import bcrypt from "bcryptjs";
 import { NextRequest } from "next/server";
 import prisma from "@/lib/db";
 
-const JWT_SECRET = process.env.JWT_SECRET || "bloom-super-secret-jwt-signing-key-32charsmin-2026";
+const DEV_FALLBACK_SECRET = "bloom-super-secret-jwt-signing-key-32charsmin-2026";
+
+// The fallback only applies outside production (local dev and tests).
+function getSigningSecret(): string {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    if (process.env.NODE_ENV === "production") {
+      throw new Error("JWT_SECRET must be set in production");
+    }
+    return DEV_FALLBACK_SECRET;
+  }
+  return secret;
+}
 const TOKEN_EXPIRY = "7d";
 
 export interface AuthUserPayload {
@@ -22,12 +34,12 @@ export function comparePassword(plainText: string, hashed: string): Promise<bool
 }
 
 export function signAuthToken(payload: AuthUserPayload): string {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: TOKEN_EXPIRY });
+  return jwt.sign(payload, getSigningSecret(), { expiresIn: TOKEN_EXPIRY });
 }
 
 export function verifyAuthToken(token: string): AuthUserPayload | null {
   try {
-    return jwt.verify(token, JWT_SECRET) as AuthUserPayload;
+    return jwt.verify(token, getSigningSecret()) as AuthUserPayload;
   } catch {
     return null;
   }
