@@ -7,6 +7,14 @@ export const metadata: Metadata = {
   title: "Bloom | Goal-First Investing & Financial Intelligence Platform",
   description:
     "Personalized goal-first financial planning, deterministic compounding calculations, and transparent investment education for Indian retail investors.",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "32x32" },
+    ],
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
 };
 
 export default function RootLayout({
